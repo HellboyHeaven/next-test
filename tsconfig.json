@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/shared/oauth.js", "src/shared/oauth.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/shared/oauth.js", "src/shared/oauth.js", "src/app/modal/createDeal.js"],
   "exclude": ["node_modules"]
 }
