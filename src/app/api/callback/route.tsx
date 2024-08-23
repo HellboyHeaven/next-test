@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import  {getLoggedInUser, initalizeSession, initAPIClient, updateTokens} from "../../../shared/oauth.js"
 import { cookies } from "next/headers.js";
 
-export default async function GET(request : NextRequest, response : NextResponse) {
+export default async function GET(request : NextRequest) {
     const params = request.nextUrl.searchParams;
     try {
         const code = params.get('code') as string;

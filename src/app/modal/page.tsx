@@ -6,7 +6,7 @@ import Scheduled from "@/components/scheduled";
 import ServiceDetails from "@/components/service-details";
 import AppExtensionsSDK from "@pipedrive/app-extensions-sdk"
 import { FormEvent, useEffect, useState } from "react"
-
+import { createDeal } from "./createDeal";
 
 
 export default function Page() {
@@ -41,7 +41,7 @@ export default function Page() {
     
       const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+        createDeal(formData)
       };
     
 
