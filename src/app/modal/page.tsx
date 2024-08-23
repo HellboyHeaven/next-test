@@ -12,7 +12,7 @@ import { createDeal } from "./createDeal";
 export default function Page() {
     useEffect(()=> {
         if (window === undefined) return;
-        //new AppExtensionsSDK().initialize({size: { height: 1000, width: 1000 }})
+        new AppExtensionsSDK().initialize({size: { height: 1000, width: 1000 }})
     })
     const [formData, setFormData] = useState({
         firstName: '',
