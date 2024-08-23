@@ -1,4 +1,4 @@
-import Pipedrive from 'pipedrive';
+import { ApiClient, UsersApi } from 'pipedrive';
 import { getCookie, setCookie } from 'cookies-next';
 import { redirect } from 'next/navigation';
 
@@ -7,7 +7,7 @@ let apiClient
 // Initialize the API client
 export const initAPIClient = ({ accessToken = '', refreshToken = '' }) => {
   
-  apiClient = new Pipedrive.ApiClient();
+  apiClient = new ApiClient();
   const oauth2 = apiClient.authentications.oauth2;
   oauth2.clientId =  process.env.CLIENT_ID; // OAuth 2 Client ID
   oauth2.clientSecret =  process.env.CLIENT_SECRET; // OAuth 2 Client Secret
