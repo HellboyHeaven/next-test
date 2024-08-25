@@ -10,9 +10,9 @@ export async function GET(request : NextRequest) {
     try {
 
         // Get the access token
-        const client = initAPIClient({code:code});
+        const client = await initAPIClient({code:code});
         cookies().set('apiClient', JSON.stringify(client))
-        
+
 
         return new Response('Successfully authorized', {status: 200})
     } catch (error) {

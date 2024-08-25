@@ -7,7 +7,6 @@ import ServiceDetails from "@/components/service-details";
 import AppExtensionsSDK from "@pipedrive/app-extensions-sdk"
 import { FormEvent, useEffect, useState } from "react"
 import { createDeal } from "./createDeal";
-import { cookies } from "next/headers";
 
 
 export default function Page() {
@@ -42,8 +41,7 @@ export default function Page() {
     
       const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const apiClient = JSON.parse(cookies().get('apiClient')?.value as string)
-        createDeal(formData, apiClient)
+        createDeal(formData)
       };
     
 
