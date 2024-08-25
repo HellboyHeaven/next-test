@@ -91,6 +91,6 @@ export async function executePromise(method: Method, api: string, body: {}, toke
 
     const headers = { Authorization: `Bearer ${token}` };
     console.log(`api: ${companyDomain}.pipedrive.com/api/v2${api} \n body: ${JSON.stringify(body)} \n token: ${token}`)
-    const res = await axios({url: `${companyDomain}.pipedrive.com/api/v2${api}`, headers: headers, method: method, data: body})
+    const res = await axios({url: `https://api.pipedrive.com/api/v2${api}`, headers: headers, method: method, data: body})
     return res;
 }
