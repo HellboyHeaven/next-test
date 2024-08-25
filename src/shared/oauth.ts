@@ -46,11 +46,16 @@ const setSessionCookie = (apiClient: ApiClient, cookies : ReadonlyRequestCookies
     apiClient: apiClient
   };
   
-  cookies.set("session", JSON.stringify(newSession), {
+  cookies.set(
+    "session",
+    JSON.stringify(newSession),
+    {
     maxAge: 300,
     sameSite: 'none',
     secure: false,
   });
+  console.log(cookies.getAll())
+
   // 1.4. Set the cookie
   return newSession;
 }
