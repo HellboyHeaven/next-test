@@ -6,6 +6,7 @@ import { cookies } from "next/headers.js";
 export async function GET(request : NextRequest) {
     const params = request.nextUrl.searchParams;
     const code = params.get('code') as string;
+    console.log(code)
     if (!code) return new Response( 'error', {status:401})
     try {
 
@@ -15,8 +16,7 @@ export async function GET(request : NextRequest) {
 
         return new Response('Successfully authorized', {status: 200})
     } catch (error : any) {
-        const client = await initAPIClient({code:code});
-        cookies().set('apiClient', JSON.stringify(client));
+       
         return new Response( error.message, {status: error.status} )
     }
 };
