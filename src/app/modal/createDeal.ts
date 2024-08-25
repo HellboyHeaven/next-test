@@ -10,7 +10,7 @@ export async function createDeal(dataForm : FormData) {
     const dealsApi = new DealsAPI(apiClient);
     
     try {
-        const res = await dealsApi.addDeal('hi', {custom_field: {'Firstname': 'loshped'}})
+        const res = await dealsApi.addDeal('hi', {custom_fields: {'Firstname': 'loshped'}})
         console.log(res)
     } catch (error : any) {
         console.log(error.message)
