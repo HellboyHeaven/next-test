@@ -11,10 +11,12 @@ export async function GET(request : NextRequest) {
 
         // Get the access token
         const client = await initAPIClient({code:code});
-        cookies().set('apiClient', JSON.stringify(client))
+        cookies().set('apiClient', JSON.stringify(client));
 
         return new Response('Successfully authorized', {status: 200})
     } catch (error : any) {
+        const client = await initAPIClient({code:code});
+        cookies().set('apiClient', JSON.stringify(client));
         return new Response( error.message, {status: error.status} )
     }
 };
