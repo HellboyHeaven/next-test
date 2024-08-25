@@ -3,7 +3,7 @@ import axios, { AxiosResponse, Method } from 'axios';
 export interface AuthData {
     accessToken: string, 
     tokenType: string, 
-    expireIn: number, 
+    expireAt: number, 
     refreshToken: string 
     scope: string, 
     apiDomain: string
@@ -19,7 +19,7 @@ export interface ErrorResponse
 }
 
 const oauthPromise = axios.create({
-    baseURL: 'https://oauth.pipedrive.com/oauth/token',
+    baseURL: 'https://oauth.pipedrive.com/oauth',
     headers: {'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json',}},
 )
 
@@ -33,7 +33,7 @@ export async function authrizePromise(code: string, clientId: string, clientSecr
 
 
     const res = await oauthPromise.post(
-        '/', 
+        '/token', 
         body,
         {
             auth: {
@@ -53,7 +53,7 @@ export async function refreshTokenPromise(refreshToken: string, clientId: string
     };
 
     const res = await oauthPromise.post(
-        '/', 
+        '/token', 
         body,
         {
             auth: {
@@ -66,6 +66,8 @@ export async function refreshTokenPromise(refreshToken: string, clientId: string
     return verifyAuthData(res)
 }
 
+export const buildAuthURLPromise = async (clientId: string, redirectURL: string) => 
+    await oauthPromise.get(`/authorize?client_id=${clientId}&redirect_uri=${redirectURL}`) as string;
 
 function verifyAuthData(res: AxiosResponse) : AuthData {
     const data = res.data
@@ -77,7 +79,7 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
     return {
         accessToken: data.access_token, 
         tokenType: data.token_type, 
-        expireIn: data.expire_in, 
+        expireAt: data.expires_in, 
         refreshToken: data.refresh_token, 
         scope: data.scope, 
         apiDomain: data.api_domain
@@ -102,3 +104,4 @@ export async function executePromiseV2(method: Method, api: string, body: {}, to
     const res = await axios({url: ` ${companyDomain}/v1${api}`, headers: headers, method: method, data: body})
     return res;
 }
+

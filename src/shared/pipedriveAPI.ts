@@ -1,5 +1,7 @@
 import { Token } from "@/types/tokenType";
-import { AuthData, authrizePromise, refreshTokenPromise, executePromiseV1, executePromiseV2 } from "./pipedrivePromise";
+import { AuthData, authrizePromise, refreshTokenPromise, executePromiseV1, executePromiseV2, buildAuthURLPromise } from "./pipedrivePromise";
+
+
 
 export class ApiClient {
     clientId : string
@@ -32,11 +34,13 @@ export class ApiClient {
         this.InitializeToken(auth)
     }
 
+    buildAuthURL = async () => await buildAuthURLPromise(this.clientId, this.redirectURL)
+
     InitializeToken(authData : AuthData) {
         this.token = {
             accessToken: authData.accessToken,
             refreshToken: authData.refreshToken,
-            expireIn: authData.expireIn
+            expireAt: authData.expireAt
         }
        
     }
