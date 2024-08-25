@@ -11,6 +11,7 @@ export async function GET(request : NextRequest) {
       
         // Get the access token
         initAPIClient({code:code}, cookies());
+        cookies().set('suka', 'da')
 
 
         return new Response('Successfully authorized', {status: 200})

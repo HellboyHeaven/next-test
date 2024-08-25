@@ -50,7 +50,7 @@ const setSessionCookie = (apiClient: ApiClient, cookies : ReadonlyRequestCookies
     "session",
     JSON.stringify(newSession),
     {
-    maxAge: 300,
+    maxAge: 30000000000,
     sameSite: 'none',
     secure: false,
   });
