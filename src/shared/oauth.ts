@@ -1,18 +1,11 @@
-import { getCookie, setCookie } from 'cookies-next';
-import { ApiClient } from './pipedriveAPI';
-import { CookiesFn } from 'cookies-next/lib/types';
-import { cookies } from 'next/headers';
+import { ApiClient } from './pipedriveAPI';;
+import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
 
-export type initAPiclientParam = {
-  accessToken: string,
-  refreshToken: string,
-  code: string,
-  cookies: CookiesFn
-}
+
 
 // Initialize the API client
-export const initAPIClient = async ({accessToken = '', refreshToken = '', code = '', cookie = cookies}) => {
+export const initAPIClient = async ({accessToken = '', refreshToken = '', code = ''}, cookies: ReadonlyRequestCookies) => {
   const apiClient = new ApiClient(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!, process.env.REDIRECT_URL!)
 
   if (accessToken && refreshToken) {
@@ -25,41 +18,39 @@ export const initAPIClient = async ({accessToken = '', refreshToken = '', code =
   else if (code) {
     await apiClient.authrize(code)
   }
-  initalizeSession(apiClient, cookie)
+  initalizeSession(apiClient, cookies)
 
   return apiClient;
 };
 
-export const initalizeSession = (apiClient:ApiClient, cookies : CookiesFn) => setSessionCookie(apiClient, cookies)
+export const initalizeSession = (apiClient:ApiClient, cookies : ReadonlyRequestCookies) => setSessionCookie(apiClient, cookies)
 
-export const updateToken = async (apiClient:ApiClient, cookies : CookiesFn) => {
+export const updateToken = async (apiClient:ApiClient, cookies : ReadonlyRequestCookies) => {
   await apiClient.updateToken()
   initalizeSession(apiClient, cookies)
 }
 
 
-export const getAPIClient = (cookies : CookiesFn) : ApiClient => {
-  const session = getCookie('session', { cookies }) as string;
-  if (session === undefined) {
-    console.log(session)
-    console.log(cookies().getAll())
+export const getAPIClient = (cookies : ReadonlyRequestCookies) : ApiClient => {
+  if (!cookies.has('session')) {
+    console.log(cookies.getAll())
     throw Error('UnAutorized')
   }
+  const session = cookies.get('session')?.value as string;
+ 
   return JSON.parse(session).apiClient as ApiClient
 }
 
-const setSessionCookie = (apiClient: ApiClient, cookies : CookiesFn) => {
+const setSessionCookie = (apiClient: ApiClient, cookies : ReadonlyRequestCookies) => {
   const newSession = {
     apiClient: apiClient
   };
-  const expiry = 3600*24*60
+  
+  cookies.set("session", JSON.stringify(newSession), {
+    maxAge: 300,
+    sameSite: 'none',
+    secure: false,
+  });
   // 1.4. Set the cookie
-  setCookie(
-    'session',
-    JSON.stringify(newSession),
-    {
-      sameSite: 'none',
-      secure: true
-    });
   return newSession;
 }

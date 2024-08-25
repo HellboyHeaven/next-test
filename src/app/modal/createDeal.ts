@@ -7,8 +7,7 @@ import { cookies } from "next/headers";
 
 
 export async function createDeal(dataForm : FormData) {
-   
-    const apiClient = getAPIClient(cookies)
+    const apiClient = getAPIClient(cookies())
     const dealsApi = new DealsAPI(apiClient);
 
     try {

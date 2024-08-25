@@ -10,7 +10,7 @@ export async function GET(request : NextRequest) {
     try {
       
         // Get the access token
-        initAPIClient({code:code, cookie: cookies});
+        initAPIClient({code:code}, cookies());
 
 
         return new Response('Successfully authorized', {status: 200})
