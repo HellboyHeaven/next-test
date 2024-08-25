@@ -19,52 +19,10 @@ export const initAPIClient = async ({accessToken = '', refreshToken = '', code =
   else if (code) {
     await apiClient.authrize(code)
   }
-  initalizeSession(apiClient)
 
   return apiClient;
 };
 
-export const initalizeSession = (apiClient:ApiClient) => setSessionCookie(apiClient)
-
 export const updateToken = async (apiClient:ApiClient) => {
   await apiClient.updateToken()
-  initalizeSession(apiClient)
-}
-
-
-export const getAPIClient = () : ApiClient => getSessionCookie().apiClient;
-
-
-
-export type Session ={
-  apiClient : ApiClient
-}
-
-const getSessionCookie = () : Session => {
-  const cookieStore = cookies();
-  if (!cookieStore.has('session')) {
-    console.log(cookieStore.getAll())
-    throw Error('UnAutorized')
-  }
-  const session = cookieStore.get('session')?.value as string;
-  return JSON.parse(session)
-}
-
-const setSessionCookie = (apiClient: ApiClient) => {
-  const cookieStore = cookies();
-  const newSession = {
-    apiClient: apiClient
-  };
-
-
-  cookieStore.set(
-    "session",
-    JSON.stringify(newSession),
-    {sameSite: 'none', secure:true}
-    );
-
-  console.log(cookieStore.getAll())
-
-  // 1.4. Set the cookie
-  return newSession;
 }

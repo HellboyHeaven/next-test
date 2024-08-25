@@ -69,6 +69,7 @@ export async function refreshTokenPromise(refreshToken: string, clientId: string
 
 function verifyAuthData(res: AxiosResponse) : AuthData {
     const data = res.data
+    console.log(res.data)
     if (res.status != 200)
         throw Error(res.statusText);
 
