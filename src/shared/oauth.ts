@@ -57,7 +57,7 @@ const setSessionCookie = (apiClient: ApiClient, cookies : CookiesFn) => {
     'session',
     JSON.stringify(newSession),
     {
-      maxAge: expiry - Date.now() / 1000,
+      maxAge: expiry,
       sameSite: 'none',
       secure: true
     });
