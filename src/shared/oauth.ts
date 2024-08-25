@@ -42,7 +42,7 @@ export const getAPIClient = (cookies : CookiesFn) : ApiClient => {
   const session = getCookie('session', { cookies }) as string;
   if (session === undefined) {
     console.log(session)
-    console.log(cookies())
+    console.log(cookies().get('session'))
   }
   return JSON.parse(session).apiClient as ApiClient
 }
@@ -51,8 +51,15 @@ const setSessionCookie = (apiClient: ApiClient, cookies : CookiesFn) => {
   const newSession = {
     apiClient: apiClient
   };
-  const day = 3600*24*60
+  const expiry = 3600*24*60
   // 1.4. Set the cookie
-  setCookie('session', JSON.stringify(newSession), {cookies});
+  setCookie(
+    'session',
+    JSON.stringify(newSession),
+    {
+      maxAge: expiry - Date.now() / 1000,
+      sameSite: 'none',
+      secure: true
+    });
   return newSession;
 }
