@@ -40,6 +40,10 @@ export const updateToken = async (apiClient:ApiClient, cookies : CookiesFn) => {
 
 export const getAPIClient = (cookies : CookiesFn) : ApiClient => {
   const session = getCookie('session', { cookies }) as string;
+  if (session === undefined) {
+    console.log(session)
+    console.log(cookies)
+  }
   return JSON.parse(session).apiClient as ApiClient
 }
 
