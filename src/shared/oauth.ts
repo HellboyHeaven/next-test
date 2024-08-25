@@ -1,4 +1,4 @@
-import { cookies, cookies } from 'next/headers';
+import { cookies } from 'next/headers';
 import { ApiClient } from './pipedriveAPI';import { NextRequest } from 'next/server';
 ;
 
@@ -42,7 +42,7 @@ export type Session ={
 
 const getSessionCookie = () : Session => {
   const cookieStore = cookies();
-  if (!cookies.has('session')) {
+  if (!cookieStore.has('session')) {
     console.log(cookieStore.getAll())
     throw Error('UnAutorized')
   }

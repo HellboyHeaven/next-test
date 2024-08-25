@@ -8,10 +8,9 @@ export async function GET(request : NextRequest) {
     const code = params.get('code') as string;
     if (!code) return new Response( 'error', {status:401})
     try {
-        const cookie = cookies()
         // Get the access token
-        initAPIClient({code:code}, cookie);
-        cookie.set('suka', '125', {sameSite:'none'})
+        initAPIClient({code:code});
+        request.cookies.set('suka', '125')
 
 
         return new Response('Successfully authorized', {status: 200})
