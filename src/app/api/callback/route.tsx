@@ -5,14 +5,16 @@ import { cookies } from "next/headers.js";
 
 export async function GET(request : NextRequest) {
     const params = request.nextUrl.searchParams;
+    const code = params.get('code') as string;
+    if (!code) return new Response( 'error', {status:401})
     try {
-        const code = params.get('code') as string;
+      
         // Get the access token
         initAPIClient({code:code, cookie: cookies});
 
 
         return new Response('Successfully authorized', {status: 200})
     } catch (error) {
-        return new Response( 'error' , {status: 200})
+        return new Response( 'error', {status: 401} )
     }
 };
