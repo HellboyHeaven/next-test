@@ -43,6 +43,7 @@ export const getAPIClient = (cookies : CookiesFn) : ApiClient => {
   if (session === undefined) {
     console.log(session)
     console.log(cookies().getAll())
+    throw Error('UnAutorized')
   }
   return JSON.parse(session).apiClient as ApiClient
 }
@@ -57,7 +58,6 @@ const setSessionCookie = (apiClient: ApiClient, cookies : CookiesFn) => {
     'session',
     JSON.stringify(newSession),
     {
-      maxAge: expiry + Date.now() / 1000,
       sameSite: 'none',
       secure: true
     });
