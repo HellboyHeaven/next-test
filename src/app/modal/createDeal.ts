@@ -1,13 +1,12 @@
 'use server'
 
-import { getAPIClient } from "@/shared/oauth";
 import { DealsAPI } from "@/shared/pipedriveAPI";
 import { FormData } from "@/types/formTypes";
 import { cookies } from "next/headers";
 
 
 export async function createDeal(dataForm : FormData) {
-    const apiClient = getAPIClient()
+    const apiClient = JSON.parse(cookies().get('apiClient')?.value as string)
     const dealsApi = new DealsAPI(apiClient);
 
     try {
