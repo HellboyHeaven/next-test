@@ -1,11 +1,12 @@
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
-import { ApiClient } from './pipedriveAPI';;
+import { cookies, cookies } from 'next/headers';
+import { ApiClient } from './pipedriveAPI';import { NextRequest } from 'next/server';
+;
 
 
 
 
 // Initialize the API client
-export const initAPIClient = async ({accessToken = '', refreshToken = '', code = ''}, cookies: ReadonlyRequestCookies) => {
+export const initAPIClient = async ({accessToken = '', refreshToken = '', code = ''}) => {
   const apiClient = new ApiClient(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!, process.env.REDIRECT_URL!)
 
   if (accessToken && refreshToken) {
@@ -18,42 +19,51 @@ export const initAPIClient = async ({accessToken = '', refreshToken = '', code =
   else if (code) {
     await apiClient.authrize(code)
   }
-  initalizeSession(apiClient, cookies)
+  initalizeSession(apiClient)
 
   return apiClient;
 };
 
-export const initalizeSession = (apiClient:ApiClient, cookies : ReadonlyRequestCookies) => setSessionCookie(apiClient, cookies)
+export const initalizeSession = (apiClient:ApiClient) => setSessionCookie(apiClient)
 
-export const updateToken = async (apiClient:ApiClient, cookies : ReadonlyRequestCookies) => {
+export const updateToken = async (apiClient:ApiClient) => {
   await apiClient.updateToken()
-  initalizeSession(apiClient, cookies)
+  initalizeSession(apiClient)
 }
 
 
-export const getAPIClient = (cookies : ReadonlyRequestCookies) : ApiClient => {
+export const getAPIClient = () : ApiClient => getSessionCookie().apiClient;
+
+
+
+export type Session ={
+  apiClient : ApiClient
+}
+
+const getSessionCookie = () : Session => {
+  const cookieStore = cookies();
   if (!cookies.has('session')) {
-    console.log(cookies.getAll())
+    console.log(cookieStore.getAll())
     throw Error('UnAutorized')
   }
-  const session = cookies.get('session')?.value as string;
- 
-  return JSON.parse(session).apiClient as ApiClient
+  const session = cookieStore.get('session')?.value as string;
+  return JSON.parse(session)
 }
 
-const setSessionCookie = (apiClient: ApiClient, cookies : ReadonlyRequestCookies) => {
+const setSessionCookie = (apiClient: ApiClient) => {
+  const cookieStore = cookies();
   const newSession = {
     apiClient: apiClient
   };
-  
-  cookies.set(
+
+
+  cookieStore.set(
     "session",
     JSON.stringify(newSession),
-    {
-    sameSite: 'none',
-    secure: false,
-  });
-  console.log(cookies.getAll())
+    {sameSite: 'none', secure:true}
+    );
+
+  console.log(cookieStore.getAll())
 
   // 1.4. Set the cookie
   return newSession;
