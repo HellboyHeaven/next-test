@@ -20,7 +20,7 @@ export interface ErrorResponse
 
 const oauthPromise = axios.create({
     baseURL: 'https://oauth.pipedrive.com/oauth/token',
-    headers: {'Content-Type': 'application/json', Accept: 'application/json',}},
+    headers: {'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json',}},
 )
 
 export async function authrizePromise(code: string, clientId: string, clientSecret: string, redirectURL: string, ) {
