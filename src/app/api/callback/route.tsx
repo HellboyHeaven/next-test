@@ -6,7 +6,6 @@ import { cookies } from "next/headers.js";
 export async function GET(request : NextRequest) {
     const params = request.nextUrl.searchParams;
     const code = params.get('code') as string;
-    console.log(code)
     if (!code) return new Response( 'error', {status:401})
     try {
 

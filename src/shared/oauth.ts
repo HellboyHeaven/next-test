@@ -3,11 +3,13 @@ import { ApiClient } from './pipedriveAPI';import { NextRequest } from 'next/ser
 ;
 
 
-
+export const createClient = () => {
+  return new ApiClient(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!, process.env.REDIRECT_URL!)
+}
 
 // Initialize the API client
 export const initAPIClient = async ({accessToken = '', refreshToken = '', code = ''}) => {
-  const apiClient = new ApiClient(process.env.CLIENT_ID!, process.env.CLIENT_SECRET!, process.env.REDIRECT_URL!)
+  const apiClient = createClient();
 
   if (accessToken && refreshToken) {
     apiClient.token = {

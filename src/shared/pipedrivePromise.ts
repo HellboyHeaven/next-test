@@ -90,7 +90,7 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
 export async function executePromise(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
 
     const headers = { Authorization: `Bearer ${token}` };
-
+    console.log(`https://${companyDomain}.pipedrive.com/api/v2${api}`)
     const res = await axios({url: `https://${companyDomain}.pipedrive.com/api/v2${api}`, headers: headers, method: method, data: body})
     return res;
 }
