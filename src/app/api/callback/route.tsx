@@ -1,6 +1,6 @@
 
 import { type NextRequest } from "next/server.js";
-import  {initAPIClient} from "../../../shared/oauth.js"
+import  {initAPIClient} from "../../../shared/oauth"
 import { cookies } from "next/headers.js";
 
 export async function GET(request : NextRequest) {
