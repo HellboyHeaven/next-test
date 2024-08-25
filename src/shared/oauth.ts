@@ -1,5 +1,5 @@
-import { ApiClient } from './pipedriveAPI';;
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
+import { ApiClient } from './pipedriveAPI';;
 
 
 
@@ -50,7 +50,6 @@ const setSessionCookie = (apiClient: ApiClient, cookies : ReadonlyRequestCookies
     "session",
     JSON.stringify(newSession),
     {
-    maxAge: 30000000000,
     sameSite: 'none',
     secure: false,
   });
