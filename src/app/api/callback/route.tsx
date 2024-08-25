@@ -13,9 +13,8 @@ export async function GET(request : NextRequest) {
         const client = await initAPIClient({code:code});
         cookies().set('apiClient', JSON.stringify(client))
 
-
         return new Response('Successfully authorized', {status: 200})
     } catch (error : any) {
-        return new Response( error.message, {status: 401} )
+        return new Response( error.message, {status: error.status} )
     }
 };
