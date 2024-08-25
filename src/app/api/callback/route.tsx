@@ -15,7 +15,7 @@ export async function GET(request : NextRequest) {
 
 
         return new Response('Successfully authorized', {status: 200})
-    } catch (error) {
-        return new Response( 'error', {status: 401} )
+    } catch (error : any) {
+        return new Response( error.message, {status: 401} )
     }
 };
