@@ -87,10 +87,18 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
 
 
 
-export async function executePromise(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
+export async function executePromiseV1(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
 
     const headers = { Authorization: `Bearer ${token}` };
     console.log(`api: ${companyDomain}/api/v2${api} \n body: ${JSON.stringify(body)} \n token: ${token}`)
     const res = await axios({url: ` ${companyDomain}/api/v2${api}`, headers: headers, method: method, data: body})
+    return res;
+}
+
+export async function executePromiseV2(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
+
+    const headers = { Authorization: `Bearer ${token}` };
+    console.log(`api: ${companyDomain}/v1${api} \n body: ${JSON.stringify(body)} \n token: ${token}`)
+    const res = await axios({url: ` ${companyDomain}/v1${api}`, headers: headers, method: method, data: body})
     return res;
 }
