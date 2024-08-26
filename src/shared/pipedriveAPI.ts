@@ -103,9 +103,10 @@ export class DealsAPI extends PipeAPI {
                 
                 dealFields[field.key] = customFields[fieldKey]
                 if ('options' in field) {
-                    const options = data.options as number[]
+                    const options = data.options as any[]
+                    console.log('options: ', options)
                     console.log("option: ", customFields[fieldKey])
-                    const option = options[customFields[fieldKey] - 1]
+                    const option = options[customFields[fieldKey] - 1].id
                     dealFields[field.key] = option
                 }
             }
