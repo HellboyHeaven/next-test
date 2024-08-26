@@ -99,7 +99,8 @@ export class DealsAPI extends PipeAPI {
             const dealFields : any = {}
             for (var fieldKey in customFields)  {
                 const field = fields.find((f) =>  comapreStringIgnoreCaseAndWhitespaces(f.name as string, fieldKey))
-                dealFields[field.key] = customFields[fieldKey]
+                if (field) 
+                    dealFields[field.key] = customFields[fieldKey]
             }
             
             data.custom_fields = dealFields
