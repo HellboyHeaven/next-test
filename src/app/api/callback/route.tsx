@@ -13,7 +13,7 @@ export async function GET(request : NextRequest) {
         // Get the access token
         const client = await initAPIClient(code);
         cookies().set('apiClient', JSON.stringify(client), {sameSite: 'none', secure: true});
-        if (state !== undefined) {
+        if (state !== undefined ) {
             return NextResponse.redirect(state)
         }
 
