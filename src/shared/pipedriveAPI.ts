@@ -63,7 +63,7 @@ export class DealsAPI extends PipeAPI {
         const token = this.apiClient.token;
         const companyDomain = this.apiClient.companyDomain
 
-        data = this.UpdatedCustomFields(data);
+        data = await this.UpdatedCustomFields(data);
 
         if (token === undefined || companyDomain === undefined) return
         const res = await executePromiseV1('POST', `/deals`, data, token.accessToken, companyDomain)
@@ -77,6 +77,9 @@ export class DealsAPI extends PipeAPI {
     async updateDeal(id: number, data = {}) {
         const token = this.apiClient.token;
         const companyDomain = this.apiClient.companyDomain
+
+        data = await this.UpdatedCustomFields(data);
+
         if (token === undefined || companyDomain === undefined) return
         const res = await executePromiseV1('POST', `/deals/${id}`, data, token.accessToken, companyDomain)
         if (res.data.code == 'UNAUTHORIZED') {
