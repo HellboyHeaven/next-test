@@ -133,7 +133,7 @@ export class DealFieldsdAPI extends PipeAPI {
 }
 
 function comapreStringIgnoreCaseAndWhitespaces(a: string, b: string) {
-    return a.trim().toLowerCase() == b.trim().toLowerCase()
+    return a.replace(/\s/g, "").toLowerCase() == b.replace(/\s/g, "").toLowerCase()
 }
 
 
