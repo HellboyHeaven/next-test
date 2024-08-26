@@ -8,8 +8,8 @@ import { ApiClient } from './shared/pipedriveAPI'
 export async function middleware(request: NextRequest) {
   try {
     const apiClient = JSON.parse(cookies().get('apiClient')?.value as string) as ApiClient
-    if (apiClient.token!.expireAt < Date.now()) {
-      throw Error('token expired')
+    if (apiClient.token !== undefined && apiClient.token!.expireAt < Date.now()) {
+      apiClient.updateToken()
     }
   } catch {
     const client = createClient();

@@ -73,7 +73,6 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
     if (res.status != 200)
         throw Error(data.data.message, {cause:res.status});
 
-
     return {
         accessToken: data.access_token, 
         tokenType: data.token_type, 
