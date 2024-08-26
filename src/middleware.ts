@@ -11,8 +11,9 @@ export async function middleware(request: NextRequest) {
     if (apiClient === undefined || apiClient.token === undefined) {
       throw Error('no token')
     }
+    console.log('expires in: ', (Date.now() - apiClient.token.expireAt)/1000)
     if (apiClient.token.expireAt < Date.now()) {
-      console.log('expires in: ', (Date.now() - apiClient.token.expireAt)/1000)
+      
       await apiClient.updateToken()
     }
   } catch {
