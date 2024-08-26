@@ -7,6 +7,7 @@ import ServiceDetails from "@/components/service-details";
 import AppExtensionsSDK from "@pipedrive/app-extensions-sdk"
 import { FormEvent, useEffect, useState } from "react"
 import { createDeal } from "./createDeal";
+import { FormData } from "@/types/formTypes";
 
 
 export default function Page() {
@@ -14,9 +15,9 @@ export default function Page() {
         if (window === undefined) return;
         new AppExtensionsSDK().initialize({size: { height: 1000, width: 1000 }})
     })
-    const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+    const [formData, setFormData] = useState<FormData>({
+        firstname: '',
+        lastname: '',
         phone: '',
         email: '',
         address: '',

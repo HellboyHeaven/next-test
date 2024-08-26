@@ -17,7 +17,7 @@ export default function ClientDetails({ formData, onChange }: FormSectionProps) 
           name="firstName"
           placeholder="First name"
           className="border rounded-lg p-2"
-          value={formData.firstName}
+          value={formData.firstname}
           onChange={handleInputChange}
           required
         />
@@ -26,7 +26,7 @@ export default function ClientDetails({ formData, onChange }: FormSectionProps) 
           name="lastName"
           placeholder="Last name"
           className="border rounded-lg p-2"
-          value={formData.lastName}
+          value={formData.lastname}
           onChange={handleInputChange}
           required
         />
