@@ -19,8 +19,8 @@ export default function JobDetails({ formData, onChange }: FormSectionProps) {
               required
             >
               <option value="">Job type</option>
-              <option value="type1">Type 1</option>
-              <option value="type2">Type 2</option>
+              <option value="1">Type 1</option>
+              <option value="2">Type 2</option>
             </select>
             <select
               name="jobSource"
@@ -30,8 +30,8 @@ export default function JobDetails({ formData, onChange }: FormSectionProps) {
               required
             >
               <option value="">Job source</option>
-              <option value="source1">Source 1</option>
-              <option value="source2">Source 2</option>
+              <option value="1">Source 1</option>
+              <option value="2">Source 2</option>
             </select>
           </div>
           <textarea

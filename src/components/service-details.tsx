@@ -49,8 +49,8 @@ export default function ServiceDetails({ formData, onChange }: FormSectionProps)
                 onChange={handleInputChange}
             >
                 <option value="">Area</option>
-                <option value="area1">Area 1</option>
-                <option value="area2">Area 2</option>
+                <option value="1">Area 1</option>
+                <option value="2">Area 2</option>
             </select>
             </div>
         </div>

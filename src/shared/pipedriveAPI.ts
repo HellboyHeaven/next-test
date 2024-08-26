@@ -99,8 +99,13 @@ export class DealsAPI extends PipeAPI {
             const dealFields : any = {}
             for (var fieldKey in customFields)  {
                 const field = fields.find((f) =>  comapreStringIgnoreCaseAndWhitespaces(f.name as string, fieldKey))
-                if (field) 
-                    dealFields[field.key] = customFields[fieldKey]
+                if (field === undefined) continue
+                
+                dealFields[field.key] = customFields[fieldKey]
+                if ('options' in field) {
+                    const options = data.options as number[]
+                    options[Number(customFields[fieldKey]) - 1]
+                }
             }
             
             data.custom_fields = dealFields
@@ -125,7 +130,7 @@ export class DealFieldsdAPI extends PipeAPI {
 }
 
 function comapreStringIgnoreCaseAndWhitespaces(a: string, b: string) {
-    return a.replaceAll("\\s", "").toLowerCase() == (b.replaceAll("\\s", "")).toLowerCase()
+    return a.trim().toLowerCase() == b.trim().toLowerCase()
 }
 
 
