@@ -34,7 +34,7 @@ export class ApiClient {
         this.InitializeToken(auth)
     }
 
-    buildAuthURL = () => `https://oauth.pipedrive.com/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectURL}`
+    buildAuthURL = (state: string) => `https://oauth.pipedrive.com/oauth/authorize?client_id=${this.clientId}&redirect_uri=${this.redirectURL}&state=${state}`
 
     InitializeToken(authData : AuthData) {
         this.token = {

@@ -13,8 +13,7 @@ export async function middleware(request: NextRequest) {
     }
   } catch {
     const client = createClient();
-    console.log(process.env.CLIENT_ID)
-    const authURL = client.buildAuthURL()
+    const authURL = client.buildAuthURL(request.nextUrl.toString())
    
     return NextResponse.redirect(authURL)
   }
