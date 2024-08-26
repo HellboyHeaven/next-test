@@ -11,8 +11,7 @@ export async function createDeal(dataForm : FormData) {
     try {
         const apiClient = JSON.parse(cookie) as ApiClient
         const dealsApi = new DealsAPI(apiClient);
-        // const res = await dealsApi.addDeal('job', {custom_fields: dataForm})
-        console.log(JSON.stringify(apiClient))
+        const res = await dealsApi.addDeal('job', {custom_fields: dataForm})
     } catch (error : any) {
         console.log(error.message)
     }
