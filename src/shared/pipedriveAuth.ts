@@ -1,3 +1,10 @@
+import { ApiClient } from "./pipedriveAPI";
+
 export const pipedriveAuth = () => {
-    return {clientId: process.env.CLIENT_ID!, clientSecret: process.env.CLIENT_SECRET!, redirectURL: process.env.REDIRECT_URL!};
+  const clientId = process.env.CLIENT_ID!;
+  const clientSecret = process.env.CLIENT_SECRET!;
+  const redirectURL = process.env.REDIRECT_URL!;
+
+  // Return an instance of ApiClient
+  return new ApiClient(clientId, clientSecret, redirectURL);
   }
