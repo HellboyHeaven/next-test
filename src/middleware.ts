@@ -1,11 +1,23 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { createClient } from './shared/oauth'
+import { cookies } from 'next/headers'
+import { ApiClient } from './shared/pipedriveAPI'
  
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  const authURL = await createClient().buildAuthURL()
-  return NextResponse.redirect(authURL)
+  try {
+    const apiClient = JSON.parse(cookies().get('apiClient')?.value as string) as ApiClient
+    if (apiClient.token!.expireAt < Date.now()) {
+      throw Error('token expired')
+    }
+  } catch {
+    const authURL = createClient().buildAuthURL()
+    return NextResponse.redirect(authURL)
+  }
+ 
+ 
+ 
 }
  
 // See "Matching Paths" below to learn more

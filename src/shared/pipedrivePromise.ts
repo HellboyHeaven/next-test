@@ -66,8 +66,6 @@ export async function refreshTokenPromise(refreshToken: string, clientId: string
     return verifyAuthData(res)
 }
 
-export const buildAuthURLPromise = async (clientId: string, redirectURL: string) => 
-    await oauthPromise.get(`/authorize?client_id=${clientId}&redirect_uri=${redirectURL}`) as string;
 
 function verifyAuthData(res: AxiosResponse) : AuthData {
     const data = res.data
@@ -79,7 +77,7 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
     return {
         accessToken: data.access_token, 
         tokenType: data.token_type, 
-        expireAt: data.expires_in, 
+        expireAt: data.expires_in * 1000 + Date.now(), 
         refreshToken: data.refresh_token, 
         scope: data.scope, 
         apiDomain: data.api_domain
@@ -90,7 +88,6 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
 
 
 export async function executePromiseV1(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
-
     const headers = { Authorization: `Bearer ${token}` };
     console.log(`api: ${companyDomain}/api/v2${api} \n body: ${JSON.stringify(body)} \n token: ${token}`)
     const res = await axios({url: ` ${companyDomain}/api/v2${api}`, headers: headers, method: method, data: body})
