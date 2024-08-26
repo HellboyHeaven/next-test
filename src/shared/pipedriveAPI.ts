@@ -101,6 +101,7 @@ export class DealsAPI extends PipeAPI {
             
             data.custom_fields = dealFields
         }
+        console.log(JSON.stringify(data))
         return data;
     }
 }
