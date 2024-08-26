@@ -101,6 +101,7 @@ export async function executePromise(method: Method, url: string, body: {}, toke
 
 
 export async function executePromiseV1(method: Method, api: string, body: {}, token: Token, companyDomain: string )  {
+    console.log(`${companyDomain}/v1${api}}`)
     return await executePromise(method,  `${companyDomain}/v1${api}}`, body, token);
 }
 
