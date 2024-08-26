@@ -86,7 +86,8 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
     }
 }
 
-export async function executePromise(method: Method, url: string, body: {}, token: Token, companyDomain: string ) {
+export async function executePromise(method: Method, url: string, body: {}, token: Token) {
+    console.log(token.expireAt < Date.now())
     if (token.expireAt < Date.now()) {
         const client = pipedriveAuth();
         const {accessToken, refreshToken} = await refreshTokenPromise(token.refreshToken, client.clientId, client.clientSecret)
@@ -100,10 +101,10 @@ export async function executePromise(method: Method, url: string, body: {}, toke
 
 
 export async function executePromiseV1(method: Method, api: string, body: {}, token: Token, companyDomain: string )  {
-    return await executePromise(method,  `${companyDomain}/v1${api}}`, body, token, companyDomain);
+    return await executePromise(method,  `${companyDomain}/v1${api}}`, body, token);
 }
 
 export async function executePromiseV2(method: Method, api: string, body: {}, token: Token, companyDomain: string )  {
-    return await executePromise(method,  `${companyDomain}/api/v2${api}`, body, token, companyDomain);
+    return await executePromise(method,  `${companyDomain}/api/v2${api}`, body, token);
 }
 

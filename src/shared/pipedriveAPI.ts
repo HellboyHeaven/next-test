@@ -67,8 +67,8 @@ export class DealsAPI extends PipeAPI {
 
         if (token === undefined || companyDomain === undefined) return
 
-        
-        data = await this.UpdatedCustomFields(data);
+
+        data = await UpdatedCustomFields(data, this.apiClient);
         const res = await executePromiseV2('POST', `/deals`, data, token, companyDomain)
 
         console.log(JSON.stringify(res))
@@ -79,41 +79,15 @@ export class DealsAPI extends PipeAPI {
         const token = this.apiClient.token;
         const companyDomain = this.apiClient.companyDomain
 
-        data = await this.UpdatedCustomFields(data);
+        data = await UpdatedCustomFields(data, this.apiClient);
 
         if (token === undefined || companyDomain === undefined) return
-        const res = await executePromiseV2('POST', `/deals/${id}`, data, token, companyDomain)
+        const res = await executePromiseV2('PATCH', `/deals/${id}`, data, token, companyDomain)
        
-        return res
+        return res.data
     }
 
-    async UpdatedCustomFields(data : any) {
-        if ('custom_fields' in data) {
-            const dealFieldsApi = new DealFieldsdAPI(this.apiClient)
-            const fieldData = (await dealFieldsApi.getDealFields())
-            const fields = fieldData.data as any[]
-            console.log(fieldData)
-            const customFields = data.custom_fields as any
-            const dealFields : any = {}
-            for (var fieldKey in customFields)  {
-                const field = fields.find((f) =>  comapreStringIgnoreCaseAndWhitespaces(f.name as string, fieldKey))
-                if (field === undefined) continue
-                
-                dealFields[field.key] = customFields[fieldKey]
-                if ('options' in field) {
-                    const options = field.options as any[]
-                    console.log('options: ', options)
-                    console.log("option: ", customFields[fieldKey])
-                    const option = options[customFields[fieldKey] - 1].id
-                    dealFields[field.key] = option
-                }
-            }
-            
-            data.custom_fields = dealFields
-        }
-        console.log(JSON.stringify(data))
-        return data;
-    }
+    
 }
 
 export class DealFieldsdAPI extends PipeAPI {
@@ -132,6 +106,34 @@ export class DealFieldsdAPI extends PipeAPI {
 
 function comapreStringIgnoreCaseAndWhitespaces(a: string, b: string) {
     return a.replace(/\s/g, "").toLowerCase() == b.replace(/\s/g, "").toLowerCase()
+}
+
+export async function UpdatedCustomFields(data : any, apiClient: ApiClient) {
+    if ('custom_fields' in data) {
+        const dealFieldsApi = new DealFieldsdAPI(apiClient)
+        const fieldData = await dealFieldsApi.getDealFields()
+        const fields = fieldData.data as any[]
+        console.log(fieldData)
+        const customFields = data.custom_fields as any
+        const dealFields : any = {}
+        for (var fieldKey in customFields)  {
+            const field = fields.find((f) =>  comapreStringIgnoreCaseAndWhitespaces(f.name as string, fieldKey))
+            if (field === undefined) continue
+            
+            dealFields[field.key] = customFields[fieldKey]
+            if ('options' in field) {
+                const options = field.options as any[]
+                console.log('options: ', options)
+                console.log("option: ", customFields[fieldKey])
+                const option = options[customFields[fieldKey] - 1].id
+                dealFields[field.key] = option
+            }
+        }
+        
+        data.custom_fields = dealFields
+    }
+    console.log(JSON.stringify(data))
+    return data;
 }
 
 
