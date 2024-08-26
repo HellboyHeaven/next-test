@@ -63,9 +63,10 @@ export class DealsAPI extends PipeAPI {
         const token = this.apiClient.token;
         const companyDomain = this.apiClient.companyDomain
 
-        data = await this.UpdatedCustomFields(data);
+       
 
         if (token === undefined || companyDomain === undefined) return
+        data = await this.UpdatedCustomFields(data);
         const res = await executePromiseV2('POST', `/deals`, data, token, companyDomain)
 
         console.log(JSON.stringify(res))
