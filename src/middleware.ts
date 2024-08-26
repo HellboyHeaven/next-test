@@ -8,11 +8,15 @@ import { pipedriveAuth } from './shared/pipedriveAuth'
 export async function middleware(request: NextRequest) {
   try {
     const apiClient = JSON.parse(cookies().get('apiClient')?.value as string) as ApiClient
-    if (apiClient.token !== undefined && apiClient.token.expireAt < Date.now()) {
+    if (apiClient === undefined || apiClient.token === undefined) {
+      throw Error('no token')
+    }
+    if (apiClient.token.expireAt < Date.now()) {
+      console.log('expires in: ', (Date.now() - apiClient.token.expireAt)/1000)
       await apiClient.updateToken()
     }
   } catch {
-    const client = pipedriveAuth() as ApiClient;
+    const client = pipedriveAuth();
     console.log(JSON.stringify(client), '\n', request.redirect.toString())
     const authURL = client.buildAuthURL(request.nextUrl.toString())
    
