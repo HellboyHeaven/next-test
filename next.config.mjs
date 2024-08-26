@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-import { loadEnvConfig } from '@next/env'
- 
-const projectDir = process.cwd()
-loadEnvConfig(projectDir)
+
 
 const cspHeader = `
     default-src 'self';
