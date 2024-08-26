@@ -8,9 +8,9 @@ export interface FormData {
     city: string;
     state: string;
     zipCode: string;
-    area: string;
-    jobType: string;
-    jobSource: string;
+    area: number;
+    jobType: number;
+    jobSource: number;
     jobDescription?: string; // Optional
     startDate: string;
     startTime: string;
