@@ -8,18 +8,15 @@ export const createClient = () => {
 }
 
 // Initialize the API client
-export const initAPIClient = async ({accessToken = '', refreshToken = '', code = ''}) => {
+export const initAPIClient = async (code = '') => {
   const apiClient = createClient();
 
-  if (accessToken && refreshToken) {
-    apiClient.token = {
-      accessToken: accessToken,
-      refreshToken: refreshToken,
-      expireIn: 0
-    }
-  }
-  else if (code) {
+  
+  if (code) {
     await apiClient.authrize(code)
+  }
+  else {
+    throw Error('Code is absent')
   }
 
   return apiClient;
