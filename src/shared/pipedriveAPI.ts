@@ -119,8 +119,12 @@ export async function UpdatedCustomFields(data : any, apiClient: ApiClient) {
         for (var fieldKey in customFields)  {
             const field = fields.find((f) =>  comapreStringIgnoreCaseAndWhitespaces(f.name as string, fieldKey))
             if (field === undefined) continue
-            
-            dealFields[field.key] = customFields[fieldKey]
+            const value = customFields[fieldKey]
+            if (value)
+                dealFields[field.key] = value
+            if (field.field_type == 'Time') {
+                dealFields[field.key] = value+':00'
+            }
             if ('options' in field) {
                 const options = field.options as any[]
                 console.log('options: ', options)
@@ -128,6 +132,7 @@ export async function UpdatedCustomFields(data : any, apiClient: ApiClient) {
                 const option = options[customFields[fieldKey] - 1].id
                 dealFields[field.key] = option
             }
+           
         }
         
         data.custom_fields = dealFields
