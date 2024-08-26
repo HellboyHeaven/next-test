@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 
+import { loadEnvConfig } from '@next/env'
+ 
+const projectDir = process.cwd()
+loadEnvConfig(projectDir)
+
 const cspHeader = `
     default-src 'self';
     script-src 'self' 'unsafe-eval' 'unsafe-inline';
@@ -28,6 +33,11 @@ const nextConfig = {
           },
         ]
       },
+      env: {
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        redirectURL: process.env.REDIRECT_URL
+      }
 };
 
 export default nextConfig;
