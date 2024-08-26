@@ -67,6 +67,9 @@ export class DealsAPI extends PipeAPI {
 
         if (token === undefined || companyDomain === undefined) return
         const res = await executePromiseV2('POST', `/deals`, data, token, companyDomain)
+
+        console.log(JSON.stringify(res))
+
         if (res.data.code == 'UNAUTHORIZED') {
             const res = await refreshTokenPromise(token.refreshToken, this.apiClient.clientId, this.apiClient.clientSecret)
             this.apiClient.InitializeToken(res)
