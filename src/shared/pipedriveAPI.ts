@@ -86,7 +86,7 @@ export class DealsAPI extends PipeAPI {
         return res
     }
 
-    async UpdatedCustomFields(data : {}) {
+    async UpdatedCustomFields(data : any) {
         if ('custom_fields' in data) {
             const dealFieldsApi = new DealFieldsdAPI(this.apiClient)
             const fieldData = (await dealFieldsApi.getDealFields())
