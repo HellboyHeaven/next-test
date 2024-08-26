@@ -123,7 +123,7 @@ export async function UpdatedCustomFields(data : any, apiClient: ApiClient) {
             if (value)
                 dealFields[field.key] = value
             if (field.field_type == 'Time') {
-                dealFields[field.key] = value+':00'
+                dealFields[field.key] = {value: value+':00'}
             }
             if ('options' in field) {
                 const options = field.options as any[]
