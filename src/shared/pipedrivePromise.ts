@@ -1,4 +1,7 @@
+import { Token } from '@/types/tokenType';
 import axios, { AxiosResponse, Method } from 'axios';
+import { updateToken } from './oauth';
+import { pipedriveAuth } from './pipedriveAuth';
 
 export interface AuthData {
     accessToken: string, 
@@ -83,21 +86,24 @@ function verifyAuthData(res: AxiosResponse) : AuthData {
     }
 }
 
+export async function executePromise(method: Method, url: string, body: {}, token: Token, companyDomain: string ) {
+    if (token.expireAt < Date.now()) {
+        const client = pipedriveAuth();
+        const {accessToken, refreshToken} = await refreshTokenPromise(token.refreshToken, client.clientId, client.clientSecret)
+        token.accessToken = accessToken;
+        token.refreshToken = refreshToken;
+    }
+    const headers = { Authorization: `Bearer ${token.accessToken}` };
 
-
-
-export async function executePromiseV1(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
-    const headers = { Authorization: `Bearer ${token}` };
-    console.log(`api: ${companyDomain}/api/v2${api} \n body: ${JSON.stringify(body)} \n token: ${token}`)
-    const res = await axios({url: ` ${companyDomain}/api/v2${api}`, headers: headers, method: method, data: body})
-    return res;
+    return await axios({url: url, headers: headers, method: method, data: body})
 }
 
-export async function executePromiseV2(method: Method, api: string, body: {}, token: string, companyDomain: string )  {
 
-    const headers = { Authorization: `Bearer ${token}` };
-    console.log(`api: ${companyDomain}/v1${api} \n body: ${JSON.stringify(body)} \n token: ${token}`)
-    const res = await axios({url: ` ${companyDomain}/v1${api}`, headers: headers, method: method, data: body})
-    return res;
+export async function executePromiseV1(method: Method, api: string, body: {}, token: Token, companyDomain: string )  {
+    return await executePromise(method,  `${companyDomain}/v1${api}}`, body, token, companyDomain);
+}
+
+export async function executePromiseV2(method: Method, api: string, body: {}, token: Token, companyDomain: string )  {
+    return await executePromise(method,  `${companyDomain}/api/v2${api}`, body, token, companyDomain);
 }
 

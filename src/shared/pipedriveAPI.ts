@@ -66,7 +66,7 @@ export class DealsAPI extends PipeAPI {
         data = await this.UpdatedCustomFields(data);
 
         if (token === undefined || companyDomain === undefined) return
-        const res = await executePromiseV1('POST', `/deals`, data, token.accessToken, companyDomain)
+        const res = await executePromiseV2('POST', `/deals`, data, token, companyDomain)
         if (res.data.code == 'UNAUTHORIZED') {
             const res = await refreshTokenPromise(token.refreshToken, this.apiClient.clientId, this.apiClient.clientSecret)
             this.apiClient.InitializeToken(res)
@@ -81,7 +81,7 @@ export class DealsAPI extends PipeAPI {
         data = await this.UpdatedCustomFields(data);
 
         if (token === undefined || companyDomain === undefined) return
-        const res = await executePromiseV1('POST', `/deals/${id}`, data, token.accessToken, companyDomain)
+        const res = await executePromiseV2('POST', `/deals/${id}`, data, token, companyDomain)
         if (res.data.code == 'UNAUTHORIZED') {
             const res = await refreshTokenPromise(token.refreshToken, this.apiClient.clientId, this.apiClient.clientSecret)
             this.apiClient.InitializeToken(res)
@@ -123,7 +123,7 @@ export class DealFieldsdAPI extends PipeAPI {
         const token = this.apiClient.token;
         const companyDomain = this.apiClient.companyDomain
         if (token === undefined || companyDomain === undefined) return
-        const res = await executePromiseV2('GET', `/dealFields`, {}, token.accessToken, companyDomain)
+        const res = await executePromiseV1('GET', `/dealFields`, {}, token, companyDomain)
         if (res.data.code == 'UNAUTHORIZED') {
             const res = await refreshTokenPromise(token.refreshToken, this.apiClient.clientId, this.apiClient.clientSecret)
             this.apiClient.InitializeToken(res)
