@@ -14,7 +14,7 @@ export default function ClientDetails({ formData, onChange }: FormSectionProps) 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input
           type="text"
-          name="firstName"
+          name="firstname"
           placeholder="First name"
           className="border rounded-lg p-2"
           value={formData.firstname}
@@ -23,7 +23,7 @@ export default function ClientDetails({ formData, onChange }: FormSectionProps) 
         />
         <input
           type="text"
-          name="lastName"
+          name="lastname"
           placeholder="Last name"
           className="border rounded-lg p-2"
           value={formData.lastname}
