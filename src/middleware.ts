@@ -21,9 +21,9 @@ export async function middleware(request: NextRequest) {
     const client = pipedriveAuth();
     console.log('pipeAuth',  JSON.stringify(client), '\n', request.redirect.toString())
     console.log(error.message)
-    const authURL = client.buildAuthURL(request.nextUrl.toString())
+    // const authURL = client.buildAuthURL(request.nextUrl.toString())
    
-    return NextResponse.redirect(authURL)
+    // return NextResponse.redirect(authURL)
   }
  
 }

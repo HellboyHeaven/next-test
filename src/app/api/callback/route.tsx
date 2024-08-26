@@ -2,7 +2,6 @@
 import { NextResponse, type NextRequest } from "next/server.js";
 import  {initAPIClient} from "../../../shared/oauth"
 import { cookies } from "next/headers.js";
-import { redirect } from "next/dist/server/api-utils";
 
 export async function GET(request : NextRequest) {
     const params = request.nextUrl.searchParams;
