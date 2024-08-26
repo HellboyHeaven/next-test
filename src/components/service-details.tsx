@@ -4,6 +4,7 @@ import React from 'react';
 export default function ServiceDetails({ formData, onChange }: FormSectionProps) {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
+        console.log(`${name}: ${value}`)
         onChange(name as keyof FormData, value);
     };
     return (
