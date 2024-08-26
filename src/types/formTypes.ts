@@ -1,7 +1,7 @@
 // types.ts
 export interface FormData {
-    firstName: string;
-    lastName: string;
+    firstname: string;
+    lastname: string;
     phone: string;
     email?: string; // Optional
     address: string;

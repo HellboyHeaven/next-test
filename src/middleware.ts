@@ -16,8 +16,6 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(authURL)
   }
  
- 
- 
 }
  
 // See "Matching Paths" below to learn more

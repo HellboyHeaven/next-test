@@ -62,19 +62,8 @@ export class DealsAPI extends PipeAPI {
         Object.assign(data, {title: title})
         const token = this.apiClient.token;
         const companyDomain = this.apiClient.companyDomain
-        if ('custom_fields' in data) {
-            const dealFieldsApi = new DealFieldsdAPI(this.apiClient)
-            const fieldData = (await dealFieldsApi.getDealFields())
-            const fields = fieldData.data as any[]
-            console.log(fieldData)
-            const customFields = data.custom_fields as any
-            const dealFields : any = {}
-            for (var fieldKey in customFields)  {
-                const field = fields.find((f) => f.name == fieldKey)
-                dealFields[field.key] = customFields[fieldKey]
-            }
-            data.custom_fields = dealFields
-        }
+
+        data = this.UpdatedCustomFields(data);
 
         if (token === undefined || companyDomain === undefined) return
         const res = await executePromiseV1('POST', `/deals`, data, token.accessToken, companyDomain)
@@ -82,8 +71,6 @@ export class DealsAPI extends PipeAPI {
             const res = await refreshTokenPromise(token.refreshToken, this.apiClient.clientId, this.apiClient.clientSecret)
             this.apiClient.InitializeToken(res)
         }
-
-        
         return res.data
     }
 
@@ -97,6 +84,24 @@ export class DealsAPI extends PipeAPI {
             this.apiClient.InitializeToken(res)
         }
         return res
+    }
+
+    async UpdatedCustomFields(data : {}) {
+        if ('custom_fields' in data) {
+            const dealFieldsApi = new DealFieldsdAPI(this.apiClient)
+            const fieldData = (await dealFieldsApi.getDealFields())
+            const fields = fieldData.data as any[]
+            console.log(fieldData)
+            const customFields = data.custom_fields as any
+            const dealFields : any = {}
+            for (var fieldKey in customFields)  {
+                const field = fields.find((f) =>  comapreStringIgnoreCaseAndWhitespaces(f.name as string, fieldKey))
+                dealFields[field.key] = customFields[fieldKey]
+            }
+            
+            data.custom_fields = dealFields
+        }
+        return data;
     }
 }
 
@@ -114,7 +119,9 @@ export class DealFieldsdAPI extends PipeAPI {
     }
 }
 
-
+function comapreStringIgnoreCaseAndWhitespaces(a: string, b: string) {
+    return a.replaceAll("\\s", "").toLowerCase() == (b.replaceAll("\\s", "")).toLowerCase()
+}
 
 
 
