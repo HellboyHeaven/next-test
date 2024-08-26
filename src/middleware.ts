@@ -12,7 +12,10 @@ export async function middleware(request: NextRequest) {
       throw Error('token expired')
     }
   } catch {
-    const authURL = createClient().buildAuthURL()
+    const client = createClient();
+    console.log(client.clientId)
+    const authURL = client.buildAuthURL()
+   
     return NextResponse.redirect(authURL)
   }
  
